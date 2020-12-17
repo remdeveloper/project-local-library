@@ -1,40 +1,45 @@
 function findAccountById(accounts, id) {
-  return accounts.find(account=> account.id === id)
+  return finder(accounts, id);
+}
+
+function finder(accounts, id) {
+  return accounts.find((account) => account.id === id);
 }
 
 function sortAccountsByLastName(accounts) {
-  let mapped = accounts.map((name) => name.name.last)
-   // console.log(mapped)
-  let sorted = mapped.sort((key1,key2) => {
-    return key1.localeCompare(key2)
-  })
-//  console.log(sorted)
-  
+  let mapped = accounts.map((name) => name.name.last);
+  // console.log(mapped)
+  let sorted = mapped.sort((key1, key2) => {
+    return key1.localeCompare(key2);
+  });
+  //  console.log(sorted)
+
   let test = sorted.map((lastName) => {
-    return {name: { first: lastName, last: lastName}}    
- 
-  })
+    return { name: { first: lastName, last: lastName } };
+  });
   //console.log(test)
-  let testmapped = accounts.map((name)=> name.name)
-  //console.log(testmapped)
-  let testsort = testmapped.sort((key1,key2)=>{
-    return key1.last.localeCompare(key2.last)    
-  })
-  
-  //console.log(testsort)
-  let supermap = testsort.map((name)=> {  //why does putting name put name:
-    return {name}
-  })
-  return(supermap)
+  let testMapped = accounts.map((name) => name.name);
+  //console.log(testMapped)
+  let testSort = testMapped.sort((key1, key2) => {
+    return key1.last.localeCompare(key2.last);
+  });
+
+  //console.log(testSort)
+  let superMap = testSort.map((name) => {
+    //why does putting name put name:
+    return { name };
+  });
+  return superMap;
 }
 
 function numberOfBorrows(account, books) {
-  return books.reduce((acc,book)=>{
-    const count = book.borrows.reduce((borrowAcc, borrow)=>{ //access the array in the borrows
-      return borrow.id === account.id ? borrowAcc + 1 : borrowAcc;       
-    },0);
-    return acc + count
-  },0)
+  return books.reduce((acc, book) => {
+    const count = book.borrows.reduce((borrowAcc, borrow) => {
+      //access the array in the borrows
+      return borrow.id === account.id ? borrowAcc + 1 : borrowAcc;
+    }, 0);
+    return acc + count;
+  }, 0);
 }
 
 function booksInPossession(account, books, authors) {
@@ -61,14 +66,15 @@ function booksInPossession(account, books, authors) {
   }  
   
   return possessedBooks */
-  return books.filter((book)=> {
-    const recent = book.borrows[0];
-    return !recent.returned && recent.id === account.id   
-  })
-  .map(book=> {
-    const author = authors.find(author=>author.id === book.authorId);
-    return {...book, author};
-  })  
+  return books
+    .filter((book) => {
+      const recent = book.borrows[0];
+      return !recent.returned && recent.id === account.id;
+    })
+    .map((book) => {
+      const author = authors.find((author) => author.id === book.authorId);
+      return { ...book, author };
+    });
 }
 
 module.exports = {
