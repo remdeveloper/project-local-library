@@ -1,4 +1,4 @@
-function totalBooksCount(books) {
+  function totalBooksCount(books) {
   //   let counter = 0
   //   for (book in books){
   //     counter = counter+1
